@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--suppress SpringFacetInspection -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+
+<!--    load properties file sports.properties-->
+    <context:property-placeholder location="sports.properties"/>
+
+
+    <!-- Define your beans here -->
+    <bean
+            id="myCoach"
+            class="com.learning.SpringDemo.TrackCoach">
+        <constructor-arg ref="myFortune"/>
+    </bean>
+
+    <bean
+        id="crickCoach"
+        class="com.learning.SpringDemo.CricketCoach">
+
+        <!-- Create setter injection-->
+        <property name="fortune" ref="myFortune"/>
+        <property name="emailAddress" value="${foo.email}"/>
+        <property name="name" value="${foo.team}" />
+
+
+    </bean>
+
+
+    <bean
+        id="baseBall"
+        class="com.learning.SpringDemo.BaseBallCoach">
+        <constructor-arg ref="myFortune"/>
+    </bean>
+
+    <bean
+            id="myFortune"
+            class="com.learning.SpringDemo.HappyFortune">
+
+    </bean>
+    <bean
+        id="fortuneRetriever"
+        class="PracticeProblems.FortuneRetriver">
+
+    </bean>
+
+
+
+
+</beans>
+
+
+
+
+
