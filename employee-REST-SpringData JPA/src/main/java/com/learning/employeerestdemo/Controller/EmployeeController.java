@@ -45,14 +45,10 @@ public class EmployeeController {
         employeeService.DeleteEmployee(id);
     }
 
-    // Update is remaining
+
     @PutMapping("/employees/{id}")
     public Employee UpdateById(@RequestBody Employee emp, @PathVariable(value = "id") int id){
-        Employee db=employeeService.createEmployee(emp);
-        db.setEmail(db.getEmail());
-        db.setFirstName(db.getFirstName());
-        db.setLastName(db.getLastName());
-        db.setId(id);
-        return db;
+      emp.setId(id);
+      return employeeService.updateEmployee(emp);
     }
 }

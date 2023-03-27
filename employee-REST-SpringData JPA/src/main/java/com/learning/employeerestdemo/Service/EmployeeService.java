@@ -48,13 +48,9 @@ public class EmployeeService {
     }
 
 
-//public Employees UpdateById(Employees emp, int id) {
-//        Optional<Employees> empl = employeeRepository.findById(id);
-//        if (employeeRepository.existsById(id))
-//            emp.setFirstName(emp.getFirstName());
-//        emp.setLastName(emp.getLastName());
-//        emp.setEmail(emp.getEmail());
-//        return empl;
+    public Employee updateEmployee(Employee employee){
+        return employeeRepository.save(employee);
+    }
 
 
 
