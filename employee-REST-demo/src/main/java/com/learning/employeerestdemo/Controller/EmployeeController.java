@@ -2,8 +2,10 @@ package com.learning.employeerestdemo.Controller;
 
 import com.learning.employeerestdemo.Model.Employees;
 import com.learning.employeerestdemo.Service.EmployeeService;
+import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,17 +26,29 @@ public class EmployeeController {
     }
 
     @GetMapping("/employees/{id}")
-    public List<Employees> findById(@PathVariable int id) {
+    public Employees findById(@PathVariable int id) {
         return employeeService.getEmployeeById(id);
     }
 
     @PostMapping("/NewEmployees")
-    public void createEmployees() {
-        boolean flag = true;
-        Employees emp1 = new Employees("Zack", "Lister", "zackList@yahoo.com");
-        Employees emp2 = new Employees("Jack", "Dorothy", "jack23@hotmail.com");
-        employeeService.createEmployee(emp1);
-        employeeService.createEmployee(emp2);
+    public ResponseEntity<Employees> createEmployees(@RequestBody Employees empl) {
+          Employees db = employeeService.createEmployee(empl);
+          return ResponseEntity.ok(db);
+    }
 
+    @DeleteMapping("/employees/{id}")
+    public void delete(@PathVariable int id){
+        employeeService.DeleteEmployee(id);
+    }
+
+    // Update is remaining
+    @PutMapping("/employees/{id}")
+    public Employees UpdateById(@RequestBody Employees emp, @PathVariable(value = "id") int id){
+        Employees db=employeeService.createEmployee(emp);
+        db.setEmail(db.getEmail());
+        db.setFirstName(db.getFirstName());
+        db.setLastName(db.getLastName());
+        db.setId(id);
+        return db;
     }
 }

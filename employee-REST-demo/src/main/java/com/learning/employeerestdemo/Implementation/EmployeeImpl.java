@@ -26,15 +26,36 @@ public class EmployeeImpl implements EmployeeInterfaceDAO {
     }
 
     @Override
-    public List<Employees> findById(int id) {
-        TypedQuery<Employees> theQuery = entityManager.createQuery("from Employees where id=:thedata", Employees.class);
+    public Employees findById(int id) {
+      /*  TypedQuery<Employees> theQuery = entityManager.createQuery("from Employees where id=:thedata", Employees.class);
         theQuery.setParameter("thedata", id);
-        return theQuery.getResultList();
+        return theQuery.getResultList();*/
+
+        Employees dbEmployee=entityManager.find(Employees.class,id);
+        return dbEmployee;
     }
 
     @Override
-    @Transactional
-    public void createEmployees(Employees emo) {
-        entityManager.persist(emo);
+    public Employees createEmployees(Employees emo) {
+//      return entityManager.persist(emo);
+        Employees dbEmployees=entityManager.merge(emo);
+        return dbEmployees;
+    }
+
+    @Override
+    public void deleteByID(int id) {
+        Employees db=entityManager.find(Employees.class,id);
+        entityManager.remove(db);
+    }
+
+    @Override
+    // Update is remaining
+    public Employees updateById(Employees emp, int id) {
+        Employees db=entityManager.find(emp.getClass(),id);
+//        db.setEmail(db.getEmail());
+//        db.setFirstName(db.getFirstName());
+//        db.setLastName(db.getLastName());
+//        db.setId(id);
+        return  entityManager.merge(db);
     }
 }

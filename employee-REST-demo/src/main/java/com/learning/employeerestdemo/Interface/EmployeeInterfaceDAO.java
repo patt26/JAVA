@@ -8,7 +8,12 @@ public interface EmployeeInterfaceDAO {
 
     public List<Employees> findAll();
 
-    List<Employees> findById(int id);
+    Employees findById(int id);
 
-    void createEmployees(Employees empl);
+    Employees createEmployees(Employees empl);
+
+    void deleteByID(int id);
+
+    Employees updateById(Employees employees,int id);
+
 }

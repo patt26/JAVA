@@ -2,6 +2,7 @@ package com.learning.employeerestdemo.Service;
 
 import com.learning.employeerestdemo.Implementation.EmployeeImpl;
 import com.learning.employeerestdemo.Model.Employees;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,11 +21,23 @@ public class EmployeeService {
         return employee.findAll();
     }
 
-    public List<Employees> getEmployeeById(int id) {
+    public Employees getEmployeeById(int id) {
         return employee.findById(id);
     }
 
-    public void createEmployee(Employees emp) {
-        employee.createEmployees(emp);
+    @Transactional
+    public Employees createEmployee(Employees emp) {
+        return employee.createEmployees(emp);
     }
+
+    @Transactional
+    public void DeleteEmployee(int id){
+        employee.deleteByID(id);
+    }
+
+   /* @Transactional
+    //Update is remaining
+    public Employees UpdateById(Employees emp,int id){
+        return employee.updateById(emp,id);
+    }*/
 }
