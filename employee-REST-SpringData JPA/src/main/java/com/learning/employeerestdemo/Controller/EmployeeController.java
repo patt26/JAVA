@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -50,5 +51,18 @@ public class EmployeeController {
     public Employee UpdateById(@RequestBody Employee emp, @PathVariable(value = "id") int id){
       emp.setId(id);
       return employeeService.updateEmployee(emp);
+    }
+
+    @GetMapping("employees/sort/{props}")
+    public List<Employee> sorting(@PathVariable String props, @RequestParam (required = false)  String order ){
+        if(order==null){
+            order="asc";
+        }
+        return employeeService.sortEmployees(props,order);
+
+
+        // localhost:8080/api/employees/sort/prop?order=desc use this endpoint for query result
+        // otherwise use reguler
+
     }
 }

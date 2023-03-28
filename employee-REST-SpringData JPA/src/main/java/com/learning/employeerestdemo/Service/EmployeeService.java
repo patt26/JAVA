@@ -4,6 +4,7 @@ package com.learning.employeerestdemo.Service;
 import com.learning.employeerestdemo.Interface.EmployeeRepository;
 import com.learning.employeerestdemo.Model.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -50,6 +51,18 @@ public class EmployeeService {
 
     public Employee updateEmployee(Employee employee){
         return employeeRepository.save(employee);
+    }
+
+    public List<Employee> sortEmployees(String props,String order){
+        Sort sortList;
+        if(order.equalsIgnoreCase("desc")){
+            sortList= Sort.by(Sort.Order.desc(props));
+        }
+        else{
+            sortList= Sort.by(props);
+        }
+
+       return employeeRepository.findAll(sortList);
     }
 
 
