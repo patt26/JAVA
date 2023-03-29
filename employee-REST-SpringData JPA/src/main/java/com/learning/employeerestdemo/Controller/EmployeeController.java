@@ -20,6 +20,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/employees")
+
     public List<Employee> find() {
         return employeeService.getAllEmployees();
     }
@@ -35,7 +36,7 @@ public class EmployeeController {
           return ResponseEntity.ok(db);
     }
 
-    @PostMapping("/Bulkemployees")
+    @PostMapping("/BulkEmployees")
     public ResponseEntity<List<Employee>> createMultiples(@RequestBody List<Employee> empl){
         List<Employee> empl1=employeeService.createMultiple(empl);
         return ResponseEntity.ok(empl1);
