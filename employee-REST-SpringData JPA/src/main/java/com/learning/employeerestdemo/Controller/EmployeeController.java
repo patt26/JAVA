@@ -3,11 +3,15 @@ package com.learning.employeerestdemo.Controller;
 import com.learning.employeerestdemo.Model.Employee;
 import com.learning.employeerestdemo.Service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+
+import static org.springframework.http.ResponseEntity.status;
 
 @RestController
 @RequestMapping("/api")
@@ -31,9 +35,12 @@ public class EmployeeController {
     }
 
     @PostMapping("/NewEmployees")
-    public ResponseEntity<Employee> createEmployees(@RequestBody Employee empl) {
+    public ResponseEntity<String> createEmployees(@RequestBody Employee empl) {
           Employee db = employeeService.createEmployee(empl);
-          return ResponseEntity.ok(db);
+          if(db==null){
+              return  status(HttpStatus.INTERNAL_SERVER_ERROR).body("User cannot created check again");
+          }
+          return  status(HttpStatus.CREATED).body("User created");
     }
 
     @PostMapping("/BulkEmployees")
@@ -43,8 +50,14 @@ public class EmployeeController {
     }
 
     @DeleteMapping("/employees/{id}")
-    public void delete(@PathVariable int id){
-        employeeService.DeleteEmployee(id);
+    public ResponseEntity<String> delete(@PathVariable int id){
+       Employee empl= employeeService.getEmployeeById(id);
+       if(empl==null){
+           return new ResponseEntity<>("No record with given id found",HttpStatus.NOT_FOUND);
+       }
+       employeeService.DeleteEmployee(id);
+       return  status(HttpStatus.OK).body("User deleted successfully");
+
     }
 
 
@@ -63,7 +76,7 @@ public class EmployeeController {
 
 
         // localhost:8080/api/employees/sort/prop?order=desc use this endpoint for query result
-        // otherwise use reguler
+        // otherwise use regular
 
     }
 }
