@@ -15,8 +15,15 @@ public class UserRoles {
 
     @Bean
     public UserDetailsManager details(DataSource dataSource){
-        return new JdbcUserDetailsManager(dataSource);
-    }            // Using data Source as user roles using jdbc
+         JdbcUserDetailsManager jdbc=new JdbcUserDetailsManager(dataSource);
+
+         // query for retrieving the user by username
+         jdbc.setUsersByUsernameQuery("select user_id,pw,active from members where user_id=?");
+
+         // query for retrieving the roles by username
+        jdbc.setAuthoritiesByUsernameQuery("select user_id,role from roles where user_id=?");
+         return jdbc;
+    }
 
 
     @Bean
@@ -34,7 +41,7 @@ public class UserRoles {
         //for using basic http authentication
         http.httpBasic();
 
-        // disable Cross Site Request Forgery (CSRF)beacause they do not contain any session tokens and sensitive info so..
+        // disable Cross Site Request Forgery (CSRF)because they do not contain any session tokens and sensitive info so..
         // if they contain session tokens or password then we must enable csrf
         http.csrf().disable();
 
